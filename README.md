@@ -1,4 +1,4 @@
-# ElToque Class
+# PyToque Class
 
 Class with methods to make requests to the ElToque API (Cuba).
 
