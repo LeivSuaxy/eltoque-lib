@@ -37,7 +37,7 @@ _Install Dependencies_
 pip install -r requirements.txt
 ```
 
-_Import the ElToque class and initialize it by sending the api_key obtained on the official ElToque site as a parameter._
+_Import the PyToque class and initialize it by sending the api_key obtained on the official ElToque site as a parameter._
 
 **Warning** Remember to be careful with the privacy of your personal token.
 
