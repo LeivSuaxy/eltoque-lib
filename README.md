@@ -40,10 +40,11 @@ pip install -r requirements.txt
 _Import the ElToque class and initialize it by sending the api_key obtained on the official ElToque site as a parameter._
 
 **Warning** Remember to be careful with the privacy of your personal token.
-```python
-from eltoquelib.eltoque import ElToque
 
-toque = ElToque(api_key=API_KEY)
+```python
+from pytoque.core import PyToque
+
+toque = PyToque(api_key=API_KEY)
 ```
 
 ## Docs

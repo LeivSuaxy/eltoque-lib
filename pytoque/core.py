@@ -2,7 +2,7 @@ import requests
 import datetime
 from utils import validate_date
 
-class ElToque:
+class PyToque:
     def __init__(self, api_key: str):
         if not api_key:
             raise Exception('Please provide an api_key')
