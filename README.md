@@ -49,10 +49,10 @@ toque = PyToque(api_key=API_KEY)
 
 ## Docs
 
-### get_today()
+### get_today() -> dict
 Returns the exchange rates for the current date.
 
-### get_date(date: str)
+### get_date(date: str) -> dict
 Date parameter in format (YYYY-MM-DD)
 
 Returns the exchange rates of the given date.

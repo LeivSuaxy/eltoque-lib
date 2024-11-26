@@ -1,6 +1,7 @@
 import requests
 import datetime
-from utils import validate_date
+from pytoque.utils import get_url
+from pytoque.validators import validate_date, validate_filters
 
 class PyToque:
     def __init__(self, api_key: str):
@@ -14,10 +15,14 @@ class PyToque:
             'Authorization': f'Bearer {api_key}'
         }
 
-    def get_today(self) -> dict:
+    def get_today(self, filters: list = None) -> dict:
+        if filters:
+            if not validate_filters(filters):
+                raise Exception('Incorrect filters')
+
         date = datetime.date.today()
 
-        url = f"https://tasas.eltoque.com/v1/trmi?date_from={date}%2000%3A00%3A01&date_to={date}%2023%3A59%3A01"
+        url = get_url(date)
 
         try:
             response = requests.get(url, headers=self.headers)
@@ -27,15 +32,29 @@ class PyToque:
         if response.status_code != 200:
             raise Exception(f'The response was not satisfactory, HTTP STATUS: {response.status_code}')
 
-        data = response.json()
+        data: dict = response.json()
 
-        return data
+        if not filters:
+            return data
 
-    def get_date(self, date: str) -> dict:
+        data = data.get('tasas')
+
+        return_data: dict = {}
+
+        for _ in filters:
+            return_data[_] = data.get(_)
+
+        return return_data
+
+    def get_date(self, date: str, filters: list = None) -> dict:
+        if filters:
+            if not validate_filters(filters):
+                raise Exception('Incorrect filters')
+
         if not validate_date(date):
             raise Exception('Please provide a date in format "YYYY-MM-DD"')
 
-        url = f"https://tasas.eltoque.com/v1/trmi?date_from={date}%2000%3A00%3A01&date_to={date}%2023%3A59%3A01"
+        url = get_url(date)
 
         try:
             response = requests.get(url, headers=self.headers)
@@ -45,7 +64,24 @@ class PyToque:
         if response.status_code != 200:
             raise Exception(f'The response was not satisfactory, HTTP STATUS: {response.status_code}')
 
-        data = response.json()
+        data: dict = response.json()
 
-        return data
+        if not filters:
+            return data
+
+        data = data.get('tasas')
+
+        return_data: dict = {}
+
+        for _ in filters:
+            return_data[_] = data.get(_)
+
+        return return_data
+
+
+
+
+
+
+
 
