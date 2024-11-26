@@ -52,10 +52,35 @@ toque = PyToque(api_key=API_KEY)
 ### get_today() -> dict
 Returns the exchange rates for the current date.
 
+#### Additional Params
+
+- filters: List of strings with exchange rate abbreviations
+
+Available filters: ['ECU', 'TRX', 'USDT_TRC20', 'BTC', 'BNB', 'USD', 'MLC']
+
+#### Exceptions
+- Exception('Incorrect Filters') If filters are not available
+- Exception(f'The response was not satisfactory, HTTP STATUS: {response.status_code}') In case the API returns another
+status code, check the eltoque api documentation to see more.
+- RequestException() In case a failure occurs in the request
+
+
 ### get_date(date: str) -> dict
 Date parameter in format (YYYY-MM-DD)
 
 Returns the exchange rates of the given date.
 
+#### Additional Params
+
+- filters: List of strings with exchange rate abbreviations
+
+Available filters: ['ECU', 'TRX', 'USDT_TRC20', 'BTC', 'BNB', 'USD', 'MLC']
+
+#### Exceptions
+- Exception('Incorrect Filters') If filters are not available
+- Exception(f'The response was not satisfactory, HTTP STATUS: {response.status_code}') In case the API returns another
+status code, check the eltoque api documentation to see more.
+- RequestException() In case a failure occurs in the request
+- Exception('Please provide a date in format "YYYY-MM-DD"') In case a bad date format is sent
 
 

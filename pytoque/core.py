@@ -1,6 +1,6 @@
 import requests
 import datetime
-from pytoque.utils import get_url
+from pytoque.utils import get_url, filter_data
 from pytoque.validators import validate_date, validate_filters
 
 class PyToque:
@@ -39,12 +39,7 @@ class PyToque:
 
         data = data.get('tasas')
 
-        return_data: dict = {}
-
-        for _ in filters:
-            return_data[_] = data.get(_)
-
-        return return_data
+        return filter_data(data, filters)
 
     def get_date(self, date: str, filters: list = None) -> dict:
         if filters:
@@ -71,17 +66,4 @@ class PyToque:
 
         data = data.get('tasas')
 
-        return_data: dict = {}
-
-        for _ in filters:
-            return_data[_] = data.get(_)
-
-        return return_data
-
-
-
-
-
-
-
-
+        return filter_data(data, filters)
