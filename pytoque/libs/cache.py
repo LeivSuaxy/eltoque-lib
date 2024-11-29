@@ -12,10 +12,6 @@ class Cache:
             return False
         return True
 
-
-    def __check_using__(self):
-        pass
-
     def set_expire_time(self, expire_time) -> None:
         if not expire_time > 0:
             raise Exception('The expiration time must be greater than 0')

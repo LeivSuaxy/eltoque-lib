@@ -26,15 +26,12 @@ class PyToque:
         # If force is False and Cache exists return cache
         if force is False:
             if self.__cache__.exists():
-                print('Caching!')
                 return self.__cache__.get()
             data = self.__do_request__(filters=filters)
             self.__cache__.set(data)
             return data
         else:
             return self.__do_request__(filters=filters)
-
-
 
     def get_date(self, date: str, filters: list = None, force: bool = True) -> dict:
         if filters:
@@ -44,21 +41,14 @@ class PyToque:
         if not validate_date(date):
             raise Exception('Please provide a date in format "YYYY-MM-DD"')
 
-        url = get_url(date)
-
-        response = self.__do_request__(url=url)
-
-        if response.status_code != 200:
-            raise Exception(f'The response was not satisfactory, HTTP STATUS: {response.status_code}')
-
-        data: dict = response.json()
-
-        if not filters:
+        if force is False:
+            if self.__cache__.exists():
+                return self.__cache__.get()
+            data = self.__do_request__(filters=filters)
+            self.__cache__.set(data)
             return data
-
-        data = data.get('tasas')
-
-        return filter_data(data, filters)
+        else:
+            return self.__do_request__(filters=filters)
 
     def __do_request__(self, filters: list):
         date = datetime.date.today()
