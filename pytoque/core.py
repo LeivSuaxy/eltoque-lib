@@ -23,15 +23,18 @@ class PyToque:
             if not validate_filters(filters):
                 raise Exception('Incorrect filters')
 
+        date = datetime.date.today()
+
         # If force is False and Cache exists return cache
         if force is False:
             if self.__cache__.exists():
                 return self.__cache__.get()
-            data = self.__do_request__(filters=filters)
+            data = self.__do_request__(filters=filters, date=date)
+            data['date'] = date
             self.__cache__.set(data)
             return data
         else:
-            return self.__do_request__(filters=filters)
+            return self.__do_request__(filters=filters, date=date)
 
     def get_date(self, date: str, filters: list = None, force: bool = True) -> dict:
         if filters:
@@ -42,17 +45,16 @@ class PyToque:
             raise Exception('Please provide a date in format "YYYY-MM-DD"')
 
         if force is False:
-            if self.__cache__.exists():
+            if self.__cache__.exists(date=date):
                 return self.__cache__.get()
-            data = self.__do_request__(filters=filters)
+            data = self.__do_request__(filters=filters, date=date)
+            data['date'] = date
             self.__cache__.set(data)
             return data
         else:
-            return self.__do_request__(filters=filters)
+            return self.__do_request__(filters=filters, date=date)
 
-    def __do_request__(self, filters: list):
-        date = datetime.date.today()
-
+    def __do_request__(self, filters: list, date):
         url = get_url(date)
 
         try:
@@ -66,7 +68,7 @@ class PyToque:
         data: dict = response.json()
 
         if not filters:
-            return data
+            return data.get('tasas')
 
         data = data.get('tasas')
 

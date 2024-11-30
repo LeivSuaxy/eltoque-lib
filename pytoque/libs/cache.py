@@ -7,9 +7,14 @@ class Cache:
         self.__expire_time__: int = expire_time
 
     # Implement caching methods here
-    def exists(self) -> bool:
+    def exists(self, date=None) -> bool:
         if not self.data or self.data.get('expire') < time.time():
             return False
+
+        if date:
+            if self.data.get('info')['date'] != date:
+                return False
+
         return True
 
     def set_expire_time(self, expire_time) -> None:
