@@ -30,7 +30,7 @@ class PyToque:
             if self.__cache__.exists():
                 return self.__cache__.get()
             data = self.__do_request__(filters=filters, date=date)
-            data['date'] = date
+            data['date'] = date.strftime('%Y-%m-%d')
             self.__cache__.set(data)
             return data
         else:
@@ -70,7 +70,5 @@ class PyToque:
         if not filters:
             return data.get('tasas')
 
-        data = data.get('tasas')
-
-        return filter_data(data, filters)
+        return filter_data(data.get('tasas'), filters)
 
